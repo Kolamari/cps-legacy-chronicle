@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Profile - CPS Legacy Chronicle{% endblock %}
+
+{% block content %}
+<section class="py-12 md:py-16">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-10">
+            <span class="text-sm font-semibold uppercase tracking-wider" style="color: var(--gold);">Edit</span>
+            <h1 class="font-display text-3xl md:text-4xl font-bold mt-2" style="color: var(--navy);">Edit Your Profile</h1>
+        </div>
+
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+            <form method="post" enctype="multipart/form-data" class="space-y-6">
+                {% csrf_token %}
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                        {{ form.full_name }}
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        {{ form.email }}
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                        {{ form.phone_number }}
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Relationship Status</label>
+                        {{ form.relationship_status }}
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Contact Address</label>
+                    {{ form.contact_address }}
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Favourite Course Mate</label>
+                        {{ form.favourite_course_mate }}
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Favourite Programming Language</label>
+                        {{ form.favourite_programming_language }}
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">If not CS, what else?</label>
+                    {{ form.alternative_course }}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Bio</label>
+                    {{ form.bio }}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Favourite Quote</label>
+                    {{ form.quote }}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Skills</label>
+                    {{ form.skills }}
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Profile Photo</label>
+                    {% if student.image %}
+                        <div class="mb-3">
+                            <img src="{{ student.image.url }}" alt="Current" class="w-24 h-24 rounded-xl object-cover">
+                        </div>
+                    {% endif %}
+                    {{ form.image }}
+                </div>
+
+                <div class="flex gap-4">
+                    <button type="submit" class="btn-primary flex-1 py-3 rounded-lg text-white font-semibold flex items-center justify-center gap-2">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                    <a href="{% url 'student_dashboard' %}" class="px-6 py-3 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 font-medium transition-all flex items-center gap-2">
+                        <i class="fas fa-times"></i> Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

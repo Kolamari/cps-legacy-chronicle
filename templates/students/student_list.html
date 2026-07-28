@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block title %}Students - CPS Legacy Chronicle{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<section class="py-12 md:py-16" style="background: linear-gradient(135deg, #0A1F44 0%, #1a3a6a 100%);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h1 class="font-display text-4xl md:text-5xl font-bold text-white mb-4">Our Students</h1>
+            <p class="text-gray-300 max-w-2xl mx-auto">Meet the brilliant minds of the Computer Science Class of 2026</p>
+        </div>
+    </div>
+</section>
+
+<!-- Search & Filter -->
+<section class="py-8 bg-white border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row gap-4 items-center justify-between">
+            <form method="get" class="flex-1 w-full sm:max-w-lg flex gap-2">
+                <div class="relative flex-1">
+                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" name="q" value="{{ query }}" placeholder="Search by name, matric, or skills..." class="form-input pl-10">
+                </div>
+                <button type="submit" class="btn-primary px-4 py-2 rounded-lg text-white font-medium">
+                    Search
+                </button>
+                {% if query %}
+                    <a href="{% url 'student_list' %}" class="px-4 py-2 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 font-medium transition-all">
+                        Clear
+                    </a>
+                {% endif %}
+            </form>
+            <div class="text-sm text-gray-500">
+                <span class="font-semibold" style="color: var(--navy);">{{ total_students }}</span> student{{ total_students|pluralize }}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Student Grid -->
+<section class="py-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {% if page_obj %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for student in page_obj %}
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 card-hover group">
+                    <div class="relative h-72 overflow-hidden" style="background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
+                        {% if student.image %}
+                            <img src="{{ student.image.url }}" alt="{{ student.full_name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        {% else %}
+                            <div class="w-full h-full flex items-center justify-center" style="background: linear-gradient(135deg, var(--navy), #1a3a6a);">
+                                <span class="text-6xl font-bold text-white font-display">{{ student.get_initials }}</span>
+                            </div>
+                        {% endif %}
+                        <div class="absolute top-4 right-4">
+                            <span class="text-white text-xs font-medium px-3 py-1 rounded-full" style="background: var(--gold);">{{ student.matric_number }}</span>
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+                            <span class="text-white/80 text-xs">
+                                <i class="fas fa-code mr-1"></i>{{ student.get_favourite_programming_language_display }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-semibold text-lg" style="color: var(--navy);">{{ student.full_name }}</h3>
+                        {% if student.quote %}
+                            <p class="text-gray-500 text-sm mt-2 italic line-clamp-2">"{{ student.quote }}"</p>
+                        {% endif %}
+                        {% if student.skills %}
+                            <div class="flex flex-wrap gap-1 mt-3">
+                                {% for skill in student.skills|slice:", " %}
+                                    <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-600">{{ skill }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <a href="{% url 'student_detail' student.pk %}" class="inline-flex items-center gap-2 mt-4 text-sm font-medium transition-colors" style="color: var(--gold);">
+                            View Profile <i class="fas fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            {% if page_obj.has_other_pages %}
+            <div class="mt-12 flex justify-center">
+                <div class="flex items-center gap-2">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}" class="w-10 h-10 rounded-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-all">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if num == page_obj.number %}
+                            <span class="w-10 h-10 rounded-lg flex items-center justify-center text-white font-medium" style="background: var(--navy);">{{ num }}</span>
+                        {% else %}
+                            <a href="?page={{ num }}{% if query %}&q={{ query }}{% endif %}" class="w-10 h-10 rounded-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-all">{{ num }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}" class="w-10 h-10 rounded-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-all">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        {% else %}
+            <div class="text-center py-20">
+                <div class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4" style="background: rgba(10,31,68,0.05);">
+                    <i class="fas fa-users text-3xl" style="color: var(--navy);"></i>
+                </div>
+                <h3 class="font-semibold text-lg text-gray-800 mb-2">No Students Found</h3>
+                <p class="text-gray-500">{% if query %}No results for "{{ query }}". Try a different search.{% else %}Students will appear here once approved.{% endif %}</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

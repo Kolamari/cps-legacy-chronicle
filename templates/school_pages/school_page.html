@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ page_type }} - CPS Legacy Chronicle{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<section class="py-16 md:py-24" style="background: linear-gradient(135deg, #0A1F44 0%, #1a3a6a 100%);">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <span class="text-sm font-semibold uppercase tracking-wider mb-4 inline-block" style="color: var(--gold);">{{ page_type }}</span>
+        <h1 class="font-display text-4xl md:text-5xl font-bold text-white">{{ page.full_name }}</h1>
+    </div>
+</section>
+
+<!-- Content -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+            <div class="grid grid-cols-1 md:grid-cols-3">
+                <div class="h-80 md:h-auto relative" style="background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
+                    {% if page.photo %}
+                        <img src="{{ page.photo.url }}" alt="{{ page.full_name }}" class="w-full h-full object-cover">
+                    {% else %}
+                        <div class="w-full h-full flex items-center justify-center" style="background: linear-gradient(135deg, var(--navy), #1a3a6a);">
+                            <span class="text-7xl font-bold text-white font-display">{{ page.full_name|slice:":1" }}</span>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="md:col-span-2 p-8 md:p-12">
+                    <span class="text-sm font-semibold uppercase tracking-wider mb-2 inline-block" style="color: var(--gold);">{{ page.title }}</span>
+                    <h2 class="font-display text-3xl font-bold mb-6" style="color: var(--navy);">{{ page.full_name }}</h2>
+
+                    {% if page.message %}
+                    <div class="mb-8">
+                        <h3 class="font-semibold mb-2 flex items-center gap-2" style="color: var(--navy);">
+                            <i class="fas fa-envelope" style="color: var(--gold);"></i> Message
+                        </h3>
+                        <div class="rounded-xl p-6" style="background: linear-gradient(135deg, rgba(10,31,68,0.03), rgba(212,175,55,0.05)); border: 1px solid rgba(212,175,55,0.15);">
+                            <p class="text-gray-700 leading-relaxed italic">"{{ page.message }}"</p>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if page.description %}
+                    <div class="mb-8">
+                        <h3 class="font-semibold mb-2 flex items-center gap-2" style="color: var(--navy);">
+                            <i class="fas fa-info-circle" style="color: var(--gold);"></i> About
+                        </h3>
+                        <p class="text-gray-600 leading-relaxed">{{ page.description }}</p>
+                    </div>
+                    {% endif %}
+
+                    {% if page.office or page.email %}
+                    <div class="border-t pt-6">
+                        <h3 class="font-semibold mb-3 flex items-center gap-2" style="color: var(--navy);">
+                            <i class="fas fa-address-card" style="color: var(--gold);"></i> Contact
+                        </h3>
+                        <div class="space-y-2 text-sm">
+                            {% if page.office %}
+                                <p class="text-gray-600"><i class="fas fa-building mr-2" style="color: var(--navy);"></i>{{ page.office }}</p>
+                            {% endif %}
+                            {% if page.email %}
+                                <p class="text-gray-600"><i class="fas fa-envelope mr-2" style="color: var(--navy);"></i>{{ page.email }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

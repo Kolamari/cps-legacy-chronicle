@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Generate Yearbook - CPS Legacy Chronicle{% endblock %}
+
+{% block content %}
+<section class="py-16 md:py-24">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6" style="background: linear-gradient(135deg, var(--navy), #1a3a6a);">
+            <i class="fas fa-book text-3xl text-white"></i>
+        </div>
+        <h1 class="font-display text-4xl md:text-5xl font-bold mb-4" style="color: var(--navy);">Digital Yearbook</h1>
+        <p class="text-gray-500 text-lg mb-10">Generate the complete CPS Legacy Chronicle yearbook as a PDF</p>
+
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 mb-8">
+            <div class="grid grid-cols-2 gap-6 mb-8">
+                <div class="text-center">
+                    <div class="text-3xl font-bold" style="color: var(--navy);">{{ student_count }}</div>
+                    <div class="text-gray-500 text-sm">Students</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold" style="color: var(--gold);">{{ lecturer_count }}</div>
+                    <div class="text-gray-500 text-sm">Lecturers</div>
+                </div>
+            </div>
+
+            <div class="rounded-xl p-4 mb-8 text-left" style="background: rgba(10,31,68,0.03); border: 1px solid rgba(10,31,68,0.1);">
+                <h4 class="font-semibold mb-2 flex items-center gap-2" style="color: var(--navy);">
+                    <i class="fas fa-info-circle" style="color: var(--gold);"></i> Yearbook Contents
+                </h4>
+                <ul class="text-sm text-gray-600 space-y-1">
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>Cover Page with School Branding</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>Vice Chancellor Message</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>Faculty of Science</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>HOD & ICT Director Pages</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>Senior & Junior Lecturers</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i>Student Profiles (6 per page)</li>
+                </ul>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn-primary w-full py-4 rounded-lg text-white font-semibold text-lg flex items-center justify-center gap-2">
+                    <i class="fas fa-file-pdf"></i> Generate PDF Yearbook
+                </button>
+            </form>
+        </div>
+
+        <p class="text-sm text-gray-400">The PDF will be automatically downloaded once generated</p>
+    </div>
+</section>
+{% endblock %}

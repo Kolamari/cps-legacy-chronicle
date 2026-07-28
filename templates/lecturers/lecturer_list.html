@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}Lecturers - CPS Legacy Chronicle{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<section class="py-16 md:py-24" style="background: linear-gradient(135deg, #0A1F44 0%, #1a3a6a 100%);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="font-display text-4xl md:text-5xl font-bold text-white mb-4">Our Lecturers</h1>
+        <p class="text-gray-300 max-w-2xl mx-auto">The dedicated educators who guided us through our Computer Science journey</p>
+    </div>
+</section>
+
+<!-- Lecturers -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Senior Lecturers -->
+        {% if senior_lecturers %}
+        <div class="mb-16">
+            <div class="flex items-center gap-4 mb-8">
+                <h2 class="font-display text-3xl font-bold" style="color: var(--navy);">Senior Lecturers</h2>
+                <span class="text-sm px-3 py-1 rounded-full" style="background: rgba(212,175,55,0.15); color: var(--gold); font-weight: 500;">{{ senior_count }}</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for lecturer in senior_lecturers %}
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 card-hover">
+                    <div class="h-64 relative overflow-hidden" style="background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
+                        {% if lecturer.photo %}
+                            <img src="{{ lecturer.photo.url }}" alt="{{ lecturer.full_name }}" class="w-full h-full object-cover">
+                        {% else %}
+                            <div class="w-full h-full flex items-center justify-center" style="background: linear-gradient(135deg, var(--navy), #1a3a6a);">
+                                <span class="text-6xl font-bold text-white font-display">{{ lecturer.full_name|slice:":1" }}</span>
+                            </div>
+                        {% endif %}
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                            <span class="text-xs text-white/80 px-2 py-1 rounded" style="background: var(--gold);">{{ lecturer.title }}</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-semibold text-lg" style="color: var(--navy);">{{ lecturer.full_name }}</h3>
+                        {% if lecturer.specialization %}
+                            <p class="text-sm text-gray-500 mt-1"><i class="fas fa-microscope mr-1" style="color: var(--gold);"></i>{{ lecturer.specialization }}</p>
+                        {% endif %}
+                        {% if lecturer.department %}
+                            <p class="text-sm text-gray-400 mt-1">{{ lecturer.department }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Junior Lecturers -->
+        {% if junior_lecturers %}
+        <div>
+            <div class="flex items-center gap-4 mb-8">
+                <h2 class="font-display text-3xl font-bold" style="color: var(--navy);">Junior Lecturers</h2>
+                <span class="text-sm px-3 py-1 rounded-full bg-gray-100 text-gray-600 font-medium">{{ junior_count }}</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for lecturer in junior_lecturers %}
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 card-hover">
+                    <div class="h-64 relative overflow-hidden" style="background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
+                        {% if lecturer.photo %}
+                            <img src="{{ lecturer.photo.url }}" alt="{{ lecturer.full_name }}" class="w-full h-full object-cover">
+                        {% else %}
+                            <div class="w-full h-full flex items-center justify-center" style="background: linear-gradient(135deg, var(--navy), #1a3a6a);">
+                                <span class="text-6xl font-bold text-white font-display">{{ lecturer.full_name|slice:":1" }}</span>
+                            </div>
+                        {% endif %}
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                            <span class="text-xs text-white/80 px-2 py-1 rounded" style="background: rgba(255,255,255,0.2);">{{ lecturer.title }}</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-semibold text-lg" style="color: var(--navy);">{{ lecturer.full_name }}</h3>
+                        {% if lecturer.specialization %}
+                            <p class="text-sm text-gray-500 mt-1"><i class="fas fa-microscope mr-1" style="color: var(--gold);"></i>{{ lecturer.specialization }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

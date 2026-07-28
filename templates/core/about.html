@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}About - CPS Legacy Chronicle{% endblock %}
+
+{% block content %}
+<section class="py-16 md:py-24">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <span class="text-sm font-semibold uppercase tracking-wider" style="color: var(--gold);">About Us</span>
+            <h1 class="font-display text-4xl md:text-5xl font-bold mt-2" style="color: var(--navy);">CPS Legacy Chronicle</h1>
+            <div class="gold-line w-24 mx-auto mt-4"></div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-8 md:p-12 shadow-sm border border-gray-100">
+            <div class="prose max-w-none">
+                <p class="text-gray-600 text-lg leading-relaxed mb-6">
+                    The <strong style="color: var(--navy);">CPS Legacy Chronicle</strong> is a digital yearbook platform designed exclusively for
+                    Computer Science students of the Class of 2026. It serves as a permanent digital archive
+                    of our academic journey, capturing the memories, achievements, and stories of each student.
+                </p>
+
+                <h3 class="font-display text-2xl font-bold mt-8 mb-4" style="color: var(--navy);">Our Mission</h3>
+                <p class="text-gray-600 leading-relaxed mb-6">
+                    To create a lasting digital legacy that celebrates the unique journey of every Computer Science
+                    student, preserving our collective memories for generations to come. We believe every student
+                    has a story worth telling, and this platform ensures those stories are never forgotten.
+                </p>
+
+                <h3 class="font-display text-2xl font-bold mt-8 mb-4" style="color: var(--navy);">Features</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(10,31,68,0.1);">
+                            <i class="fas fa-user-circle" style="color: var(--navy);"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold" style="color: var(--navy);">Personal Profiles</h4>
+                            <p class="text-sm text-gray-500">Create and customize your digital profile</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(212,175,55,0.15);">
+                            <i class="fas fa-search" style="color: var(--gold);"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold" style="color: var(--navy);">Student Search</h4>
+                            <p class="text-sm text-gray-500">Find classmates by name or skills</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(10,31,68,0.1);">
+                            <i class="fas fa-file-pdf" style="color: var(--navy);"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold" style="color: var(--navy);">PDF Yearbook</h4>
+                            <p class="text-sm text-gray-500">Generate and download the yearbook</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(212,175,55,0.15);">
+                            <i class="fas fa-shield-alt" style="color: var(--gold);"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold" style="color: var(--navy);">Secure & Private</h4>
+                            <p class="text-sm text-gray-500">CPS-only access with admin approval</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="font-display text-2xl font-bold mt-8 mb-4" style="color: var(--navy);">Eligibility</h3>
+                <p class="text-gray-600 leading-relaxed mb-4">
+                    This platform is exclusively for Computer Science students with valid matric numbers in the format:
+                </p>
+                <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center gap-2"><i class="fas fa-check-circle" style="color: var(--gold);"></i> U21/CPS/XXXX</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check-circle" style="color: var(--gold);"></i> U22/CPS/XXXX</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check-circle" style="color: var(--gold);"></i> U23/CPS/XXXX</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

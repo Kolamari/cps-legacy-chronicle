@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Students - CPS Legacy Chronicle{% endblock %}
+
+{% block content %}
+<section class="py-8" style="background: linear-gradient(135deg, #0A1F44 0%, #1a3a6a 100%);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="font-display text-3xl font-bold text-white">Student Management</h1>
+        <p class="text-gray-300 text-sm mt-1">Approve, reject, and manage student profiles</p>
+    </div>
+</section>
+
+<section class="py-8 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Filters -->
+        <div class="flex flex-col sm:flex-row gap-4 mb-6">
+            <div class="flex gap-2">
+                <a href="?status=all{% if query %}&q={{ query }}{% endif %}" class="px-4 py-2 rounded-lg text-sm font-medium transition-all {% if status == 'all' %}text-white{% else %}bg-white text-gray-600 border border-gray-200 hover:bg-gray-50{% endif %}" {% if status == 'all' %}style="background: var(--navy);"{% endif %}>
+                    All ({{ approved_count|add:pending_count }})
+                </a>
+                <a href="?status=approved{% if query %}&q={{ query }}{% endif %}" class="px-4 py-2 rounded-lg text-sm font-medium transition-all {% if status == 'approved' %}text-white{% else %}bg-white text-gray-600 border border-gray-200 hover:bg-gray-50{% endif %}" {% if status == 'approved' %}style="background: var(--navy);"{% endif %}>
+                    Approved ({{ approved_count }})
+                </a>
+                <a href="?status=pending{% if query %}&q={{ query }}{% endif %}" class="px-4 py-2 rounded-lg text-sm font-medium transition-all {% if status == 'pending' %}text-white{% else %}bg-white text-gray-600 border border-gray-200 hover:bg-gray-50{% endif %}" {% if status == 'pending' %}style="background: var(--navy);"{% endif %}>
+                    Pending ({{ pending_count }})
+                </a>
+            </div>
+            <form method="get" class="flex gap-2">
+                <input type="hidden" name="status" value="{{ status }}">
+                <input type="text" name="q" value="{{ query }}" placeholder="Search..." class="form-input text-sm py-2">
+                <button type="submit" class="btn-primary px-4 py-2 rounded-lg text-white text-sm">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- Table -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr style="background: rgba(10,31,68,0.03);">
+                            <th class="text-left px-5 py-3 font-semibold" style="color: var(--navy);">Student</th>
+                            <th class="text-left px-5 py-3 font-semibold" style="color: var(--navy);">Matric</th>
+                            <th class="text-left px-5 py-3 font-semibold" style="color: var(--navy);">Email</th>
+                            <th class="text-left px-5 py-3 font-semibold" style="color: var(--navy);">Status</th>
+                            <th class="text-left px-5 py-3 font-semibold" style="color: var(--navy);">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-50">
+                        {% for student in page_obj %}
+                        <tr class="hover:bg-gray-50 transition-all">
+                            <td class="px-5 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg, var(--navy), #1a3a6a);">
+                                        <span class="text-white text-xs font-bold">{{ student.get_initials }}</span>
+                                    </div>
+                                    <span class="font-medium" style="color: var(--navy);">{{ student.full_name }}</span>
+                                </div>
+                            </td>
+                            <td class="px-5 py-4 text-gray-500">{{ student.matric_number }}</td>
+                            <td class="px-5 py-4 text-gray-500">{{ student.email }}</td>
+                            <td class="px-5 py-4">
+                                {% if student.is_approved %}
+                                    <span class="badge-approved">Approved</span>
+                                {% else %}
+                                    <span class="badge-pending">Pending</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-5 py-4">
+                                <div class="flex gap-2">
+                                    {% if not student.is_approved %}
+                                        <a href="{% url 'admin_approve_student' student.pk %}" class="text-green-600 hover:text-green-700 p-1 rounded hover:bg-green-50 transition-all" title="Approve">
+                                            <i class="fas fa-check"></i>
+                                        </a>
+                                    {% else %}
+                                        <a href="{% url 'admin_reject_student' student.pk %}" class="text-yellow-600 hover:text-yellow-700 p-1 rounded hover:bg-yellow-50 transition-all" title="Reject">
+                                            <i class="fas fa-times"></i>
+                                        </a>
+                                    {% endif %}
+                                    <a href="{% url 'student_detail' student.pk %}" target="_blank" class="text-blue-600 hover:text-blue-700 p-1 rounded hover:bg-blue-50 transition-all" title="View">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{% url 'admin_delete_student' student.pk %}" class="text-red-600 hover:text-red-700 p-1 rounded hover:bg-red-50 transition-all" title="Delete" onclick="return confirm('Delete this student?')">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="px-5 py-12 text-center text-gray-400">No students found</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <div class="mt-6 flex justify-center">
+            <div class="flex items-center gap-2">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}&status={{ status }}{% if query %}&q={{ query }}{% endif %}" class="w-9 h-9 rounded-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50">
+                        <i class="fas fa-chevron-left text-xs"></i>
+                    </a>
+                {% endif %}
+                {% for num in page_obj.paginator.page_range %}
+                    {% if num == page_obj.number %}
+                        <span class="w-9 h-9 rounded-lg flex items-center justify-center text-white text-sm font-medium" style="background: var(--navy);">{{ num }}</span>
+                    {% else %}
+                        <a href="?page={{ num }}&status={{ status }}{% if query %}&q={{ query }}{% endif %}" class="w-9 h-9 rounded-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 text-sm">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}&status={{ status }}{% if query %}&q={{ query }}{% endif %}" class="w-9 h-9 rounded-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50">
+                        <i class="fas fa-chevron-right text-xs"></i>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

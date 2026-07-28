@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us - CPS Legacy Chronicle{% endblock %}
+
+{% block content %}
+<section class="py-16 md:py-24">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <span class="text-sm font-semibold uppercase tracking-wider" style="color: var(--gold);">Get in Touch</span>
+            <h1 class="font-display text-4xl md:text-5xl font-bold mt-2" style="color: var(--navy);">Contact Us</h1>
+            <div class="gold-line w-24 mx-auto mt-4"></div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-8 md:p-12 shadow-sm border border-gray-100">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                
+                <!-- Left Column: Info & WhatsApp -->
+                <div class="space-y-10">
+                    <!-- General Contact Information -->
+                    <div>
+                        <h3 class="font-display text-2xl font-bold mb-6" style="color: var(--navy);">Contact Information</h3>
+                        <div class="space-y-6">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background: rgba(10,31,68,0.1);">
+                                    <i class="fas fa-map-marker-alt" style="color: var(--navy);"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold" style="color: var(--navy);">Address</h4>
+                                    <p class="text-gray-500 text-sm">Computer Science Department<br>{{ site_settings.university|default:"University" }}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background: rgba(212,175,55,0.15);">
+                                    <i class="fas fa-envelope" style="color: var(--gold);"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold" style="color: var(--navy);">Email</h4>
+                                    <p class="text-gray-500 text-sm">cpslegacy2026@gmail.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- WhatsApp Support -->
+                    <div>
+                        <h3 class="font-display text-2xl font-bold mb-6" style="color: var(--navy);">WhatsApp Support</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <a href="https://wa.me/2348082930941" target="_blank" class="flex items-center gap-3 p-4 rounded-xl border border-gray-100 hover:border-gold transition-all hover:bg-gray-50">
+                                <i class="fab fa-whatsapp text-2xl" style="color: #0A1F44;"></i>
+                                <div>
+                                    <p class="text-sm font-bold text-gray-900">Support Line A</p>
+                                    <p class="text-xs text-gray-500">+234 808 293 0941</p>
+                                </div>
+                            </a>
+                            <a href="https://wa.me/2348060071159" target="_blank" class="flex items-center gap-3 p-4 rounded-xl border border-gray-100 hover:border-gold transition-all hover:bg-gray-50">
+                                <i class="fab fa-whatsapp text-2xl" style="color: #0A1F44;"></i>
+                                <div>
+                                    <p class="text-sm font-bold text-gray-900">Support Line B</p>
+                                    <p class="text-xs text-gray-500">+234 806 007 1159</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Contact Form -->
+                <div class="bg-gray-50 rounded-2xl p-8">
+                    <h3 class="font-display text-2xl font-bold mb-6" style="color: var(--navy);">Send a Message</h3>
+                    <form method="post" class="space-y-4">
+                        {% csrf_token %}
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
+                            <input type="text" name="name" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-gold outline-none" placeholder="Enter your name" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" name="email" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-gold outline-none" placeholder="Enter your email" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                            <textarea name="message" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-gold outline-none" rows="4" placeholder="How can we help you?" required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary w-full py-4 rounded-lg text-white font-semibold flex items-center justify-center gap-2">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

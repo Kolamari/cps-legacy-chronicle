@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Class Representative - CPS Legacy Chronicle{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<section class="py-16 md:py-24" style="background: linear-gradient(135deg, #0A1F44 0%, #1a3a6a 100%);">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6" style="background: rgba(212,175,55,0.2); border: 1px solid var(--gold);">
+            <i class="fas fa-star text-2xl" style="color: var(--gold);"></i>
+        </div>
+        <h1 class="font-display text-4xl md:text-5xl font-bold text-white mb-4">Class Representative</h1>
+        <p class="text-gray-300 max-w-2xl mx-auto">Our elected leader who represents the voice of the Computer Science Class of 2026</p>
+    </div>
+</section>
+
+<!-- Class Rep Profile -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        {% if class_rep %}
+        <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+            <div class="grid grid-cols-1 md:grid-cols-2">
+                <div class="h-96 md:h-auto relative" style="background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
+                    {% if class_rep.image %}
+                        <img src="{{ class_rep.image.url }}" alt="{{ class_rep.full_name }}" class="w-full h-full object-cover">
+                    {% else %}
+                        <div class="w-full h-full flex items-center justify-center" style="background: linear-gradient(135deg, var(--navy), #1a3a6a);">
+                            <span class="text-8xl font-bold text-white font-display">{{ class_rep.get_initials }}</span>
+                        </div>
+                    {% endif %}
+                    <div class="absolute top-4 left-4">
+                        <span class="text-white text-xs font-medium px-3 py-1 rounded-full" style="background: var(--gold);">
+                            <i class="fas fa-star mr-1"></i>Class Rep
+                        </span>
+                    </div>
+                </div>
+                <div class="p-8 md:p-12 flex flex-col justify-center">
+                    <span class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--gold);">Class of 2026</span>
+                    <h2 class="font-display text-3xl font-bold mb-2" style="color: var(--navy);">{{ class_rep.full_name }}</h2>
+                    <p class="text-gray-500 mb-6">{{ class_rep.matric_number }}</p>
+
+                    {% if class_rep.message_to_class %}
+                    <div class="mb-6">
+                        <h3 class="font-semibold mb-2 flex items-center gap-2" style="color: var(--navy);">
+                            <i class="fas fa-envelope" style="color: var(--gold);"></i> Message to the Class
+                        </h3>
+                        <p class="text-gray-600 italic leading-relaxed">"{{ class_rep.message_to_class }}"</p>
+                    </div>
+                    {% endif %}
+
+                    {% if class_rep.responsibilities %}
+                    <div class="mb-6">
+                        <h3 class="font-semibold mb-2 flex items-center gap-2" style="color: var(--navy);">
+                            <i class="fas fa-tasks" style="color: var(--gold);"></i> Responsibilities
+                        </h3>
+                        <p class="text-gray-600">{{ class_rep.responsibilities }}</p>
+                    </div>
+                    {% endif %}
+
+                    <a href="{% url 'student_detail' class_rep.pk %}" class="inline-flex items-center gap-2 font-medium" style="color: var(--gold);">
+                        View Full Profile <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="text-center py-20">
+            <div class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4" style="background: rgba(10,31,68,0.05);">
+                <i class="fas fa-star text-3xl" style="color: var(--navy);"></i>
+            </div>
+            <h3 class="font-semibold text-lg text-gray-800 mb-2">No Class Representative Yet</h3>
+            <p class="text-gray-500">The class representative will be announced soon.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

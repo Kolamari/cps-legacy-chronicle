@@ -1,0 +1,285 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - CPS Legacy Chronicle{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative overflow-hidden" style="background: linear-gradient(135deg, #0A1F44 0%, #1a3a6a 50%, #0A1F44 100%);">
+    <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-20 left-10 w-64 h-64 rounded-full" style="background: var(--gold);"></div>
+        <div class="absolute bottom-20 right-10 w-48 h-48 rounded-full" style="background: var(--gold);"></div>
+        <div class="absolute top-1/2 left-1/2 w-32 h-32 rounded-full" style="background: var(--gold);"></div>
+    </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 relative z-10">
+        <div class="text-center max-w-4xl mx-auto">
+            <div class="animate-fade-in-up">
+                <span class="inline-block px-4 py-2 rounded-full text-sm font-semibold mb-6" style="background: rgba(212,175,55,0.2); color: var(--gold); border: 1px solid rgba(212,175,55,0.3);">
+                    <i class="fas fa-graduation-cap mr-2"></i>Computer Science Department
+                </span>
+            </div>
+            <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-in-up delay-100" style="line-height: 1.1;">
+                CPS Legacy<br><span style="color: var(--gold);">Chronicle</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-300 mb-4 font-display animate-fade-in-up delay-200">
+                Class of 2026 Digital Yearbook
+            </p>
+            <p class="text-gray-400 max-w-2xl mx-auto mb-10 animate-fade-in-up delay-300">
+                Celebrating the journey, achievements, and memories of the Computer Science graduating class.
+                A digital collection of profiles, stories, and the legacy we leave behind.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up delay-400">
+                <a href="{% url 'student_list' %}" class="btn-gold px-8 py-4 rounded-lg text-white font-semibold text-lg flex items-center justify-center gap-2">
+                    <i class="fas fa-users"></i> View Students
+                </a>
+                <a href="{% url 'lecturer_list' %}" class="px-8 py-4 rounded-lg font-semibold text-lg flex items-center justify-center gap-2 border-2" style="border-color: var(--gold); color: var(--gold);">
+                    <i class="fas fa-chalkboard-teacher"></i> Meet Lecturers
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Wave divider -->
+    <div class="absolute bottom-0 left-0 right-0">
+        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="#F9FAFB"/>
+        </svg>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="bg-white rounded-2xl p-6 text-center shadow-sm border border-gray-100 card-hover">
+                <div class="w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-4" style="background: rgba(10,31,68,0.1);">
+                    <i class="fas fa-users text-2xl" style="color: var(--navy);"></i>
+                </div>
+                <div class="text-3xl font-bold" style="color: var(--navy);">{{ student_count }}</div>
+                <div class="text-gray-500 text-sm mt-1">Students</div>
+            </div>
+            <div class="bg-white rounded-2xl p-6 text-center shadow-sm border border-gray-100 card-hover">
+                <div class="w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-4" style="background: rgba(212,175,55,0.15);">
+                    <i class="fas fa-chalkboard-teacher text-2xl" style="color: var(--gold);"></i>
+                </div>
+                <div class="text-3xl font-bold" style="color: var(--navy);">{{ lecturer_count }}</div>
+                <div class="text-gray-500 text-sm mt-1">Lecturers</div>
+            </div>
+            <div class="bg-white rounded-2xl p-6 text-center shadow-sm border border-gray-100 card-hover">
+                <div class="w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-4" style="background: rgba(10,31,68,0.1);">
+                    <i class="fas fa-code text-2xl" style="color: var(--navy);"></i>
+                </div>
+                <div class="text-3xl font-bold" style="color: var(--navy);">2026</div>
+                <div class="text-gray-500 text-sm mt-1">Graduating Class</div>
+            </div>
+            <div class="bg-white rounded-2xl p-6 text-center shadow-sm border border-gray-100 card-hover">
+                <div class="w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-4" style="background: rgba(212,175,55,0.15);">
+                    <i class="fas fa-book text-2xl" style="color: var(--gold);"></i>
+                </div>
+                <div class="text-3xl font-bold" style="color: var(--navy);">CPS</div>
+                <div class="text-gray-500 text-sm mt-1">Department</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Students -->
+{% if approved_students %}
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <span class="text-sm font-semibold uppercase tracking-wider" style="color: var(--gold);">Meet the Class</span>
+            <h2 class="font-display text-4xl font-bold mt-2" style="color: var(--navy);">Featured Students</h2>
+            <div class="gold-line w-24 mx-auto mt-4"></div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for student in approved_students %}
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 card-hover group">
+                <div class="relative h-64 overflow-hidden" style="background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
+                    {% if student.image %}
+                        <img src="{{ student.image.url }}" alt="{{ student.full_name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    {% else %}
+                        <div class="w-full h-full flex items-center justify-center" style="background: linear-gradient(135deg, var(--navy), #1a3a6a);">
+                            <span class="text-5xl font-bold text-white font-display">{{ student.get_initials }}</span>
+                        </div>
+                    {% endif %}
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+                        <span class="text-white text-xs font-medium px-2 py-1 rounded" style="background: var(--gold);">{{ student.matric_number }}</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="font-semibold text-lg" style="color: var(--navy);">{{ student.full_name }}</h3>
+                    <p class="text-gray-500 text-sm mt-1">
+                        <i class="fas fa-code mr-1" style="color: var(--gold);"></i>{{ student.get_favourite_programming_language_display }}
+                    </p>
+                    {% if student.quote %}
+                        <p class="text-gray-600 text-sm mt-3 italic line-clamp-2">"{{ student.quote }}"</p>
+                    {% endif %}
+                    <a href="{% url 'student_detail' student.pk %}" class="inline-flex items-center gap-2 mt-4 text-sm font-medium transition-colors" style="color: var(--gold);">
+                        View Profile <i class="fas fa-arrow-right text-xs"></i>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-10">
+            <a href="{% url 'student_list' %}" class="btn-primary inline-flex items-center gap-2 px-8 py-3 rounded-lg text-white font-medium">
+                View All Students <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% comment %} <!-- School Section -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <span class="text-sm font-semibold uppercase tracking-wider" style="color: var(--gold);">Our Institution</span>
+            <h2 class="font-display text-4xl font-bold mt-2" style="color: var(--navy);">School Leadership</h2>
+            <div class="gold-line w-24 mx-auto mt-4"></div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {% for page in school_pages %}
+            <a href="{% if page.page_type == 'vc' %}{% url 'vc_page' %}{% elif page.page_type == 'faculty' %}{% url 'faculty_page' %}{% elif page.page_type == 'hod' %}{% url 'hod_page' %}{% else %}{% url 'ict_page' %}{% url 'ippto_page' %}{% endif %}" class="bg-white rounded-2xl p-6 text-center shadow-sm border border-gray-100 card-hover group">
+                <div class="w-20 h-20 rounded-full mx-auto mb-4 overflow-hidden" style="border: 3px solid var(--gold);">
+                    {% if page.photo %}
+                        <img src="{{ page.photo.url }}" alt="{{ page.full_name }}" class="w-full h-full object-cover">
+                    {% else %}
+                        <div class="w-full h-full flex items-center justify-center" style="background: var(--navy);">
+                            <span class="text-2xl font-bold text-white">{{ page.full_name|slice:":1" }}</span>
+                        </div>
+                    {% endif %}
+                </div>
+                <h3 class="font-semibold" style="color: var(--navy);">{{ page.full_name }}</h3>
+                <p class="text-sm mt-1" style="color: var(--gold);">{{ page.title }}</p>
+                <div class="mt-4 inline-flex items-center gap-1 text-sm font-medium transition-colors" style="color: var(--gold);">
+                    Read Message <i class="fas fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section> {% endcomment %}
+<!-- School Section -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <span class="text-sm font-semibold uppercase tracking-wider" style="color: var(--gold);">Our Institution</span>
+            <h2 class="font-display text-4xl font-bold mt-2" style="color: var(--navy);">School Leadership</h2>
+            <div class="gold-line w-24 mx-auto mt-4"></div>
+        </div>
+        
+        <!-- Expanded container to lg:grid-cols-5 to cleanly hold all 5 official cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+            {% for page in school_pages %}
+            <a href="{% if page.page_type == 'vc' %}{% url 'vc_page' %}{% elif page.page_type == 'faculty' %}{% url 'faculty_page' %}{% elif page.page_type == 'hod' %}{% url 'hod_page' %}{% elif page.page_type == 'ict' %}{% url 'ict_page' %}{% else %}{% url 'ippto_page' %}{% endif %}" class="bg-white rounded-2xl p-6 text-center shadow-sm border border-gray-100 card-hover group flex flex-col justify-between">
+                <div>
+                    <div class="w-20 h-20 rounded-full mx-auto mb-4 overflow-hidden" style="border: 3px solid var(--gold);">
+                        {% if page.photo %}
+                            <img src="{{ page.photo.url }}" alt="{{ page.full_name }}" class="w-full h-full object-cover">
+                        {% else %}
+                            <div class="w-full h-full flex items-center justify-center" style="background: var(--navy);">
+                                <span class="text-2xl font-bold text-white">{{ page.full_name|slice:":1" }}</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <h3 class="font-semibold leading-snug" style="color: var(--navy);">{{ page.full_name }}</h3>
+                    <p class="text-xs mt-1 font-medium" style="color: var(--gold);">{{ page.title }}</p>
+                </div>
+                
+                <div class="mt-4 inline-flex items-center justify-center gap-1 text-sm font-medium transition-colors" style="color: var(--gold);">
+                    Read Message <i class="fas fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Lecturers Preview -->
+{% if senior_lecturers or junior_lecturers %}
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <span class="text-sm font-semibold uppercase tracking-wider" style="color: var(--gold);">Our Mentors</span>
+            <h2 class="font-display text-4xl font-bold mt-2" style="color: var(--navy);">Meet Our Lecturers</h2>
+            <div class="gold-line w-24 mx-auto mt-4"></div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {% for lecturer in senior_lecturers %}
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 card-hover">
+                <div class="h-48 overflow-hidden" style="background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
+                    {% if lecturer.photo %}
+                        <img src="{{ lecturer.photo.url }}" alt="{{ lecturer.full_name }}" class="w-full h-full object-cover">
+                    {% else %}
+                        <div class="w-full h-full flex items-center justify-center" style="background: linear-gradient(135deg, var(--navy), #1a3a6a);">
+                            <span class="text-4xl font-bold text-white font-display">{{ lecturer.full_name|slice:":1" }}</span>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="p-5">
+                    <h3 class="font-semibold" style="color: var(--navy);">{{ lecturer.title }} {{ lecturer.full_name }}</h3>
+                    <span class="text-xs px-2 py-1 rounded-full mt-2 inline-block" style="background: rgba(212,175,55,0.15); color: var(--gold);">Senior Lecturer</span>
+                </div>
+            </div>
+            {% endfor %}
+            {% for lecturer in junior_lecturers %}
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 card-hover">
+                <div class="h-48 overflow-hidden" style="background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
+                    {% if lecturer.photo %}
+                        <img src="{{ lecturer.photo.url }}" alt="{{ lecturer.full_name }}" class="w-full h-full object-cover">
+                    {% else %}
+                        <div class="w-full h-full flex items-center justify-center" style="background: linear-gradient(135deg, var(--navy), #1a3a6a);">
+                            <span class="text-4xl font-bold text-white font-display">{{ lecturer.full_name|slice:":1" }}</span>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="p-5">
+                    <h3 class="font-semibold" style="color: var(--navy);">{{ lecturer.title }} {{ lecturer.full_name }}</h3>
+                    <span class="text-xs px-2 py-1 rounded-full mt-2 inline-block" style="background: rgba(10,31,68,0.1); color: var(--navy);">Junior Lecturer</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-10">
+            <a href="{% url 'lecturer_list' %}" class="btn-primary inline-flex items-center gap-2 px-8 py-3 rounded-lg text-white font-medium">
+                View All Lecturers <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- CTA Section -->
+<section class="py-20 relative overflow-hidden" style="background: var(--navy);">
+    <div class="absolute inset-0 opacity-20">
+        <div class="absolute top-0 left-1/4 w-96 h-96 rounded-full" style="background: var(--gold); filter: blur(100px);"></div>
+        <div class="absolute bottom-0 right-1/4 w-64 h-64 rounded-full" style="background: var(--gold); filter: blur(80px);"></div>
+    </div>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <h2 class="font-display text-4xl md:text-5xl font-bold text-white mb-6">
+            Be Part of the <span style="color: var(--gold);">Legacy</span>
+        </h2>
+        <p class="text-gray-300 text-lg mb-10 max-w-2xl mx-auto">
+            Register your profile today and become a part of the CPS Legacy Chronicle.
+            Your story deserves to be told.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            {% if user.is_authenticated %}
+                {% if not user.student_profile and not user.is_admin %}
+                    <a href="{% url 'student_register' %}" class="btn-gold px-8 py-4 rounded-lg text-white font-semibold text-lg flex items-center justify-center gap-2">
+                        <i class="fas fa-user-plus"></i> Create Your Profile
+                    </a>
+                {% endif %}
+            {% else %}
+                <a href="{% url 'register' %}" class="btn-gold px-8 py-4 rounded-lg text-white font-semibold text-lg flex items-center justify-center gap-2">
+                    <i class="fas fa-user-plus"></i> Get Started
+                </a>
+                <a href="{% url 'login' %}" class="px-8 py-4 rounded-lg font-semibold text-lg flex items-center justify-center gap-2 border-2" style="border-color: var(--gold); color: var(--gold);">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

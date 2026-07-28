@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Lecturers - CPS Legacy Chronicle{% endblock %}
+
+{% block content %}
+<section class="py-8" style="background: linear-gradient(135deg, #0A1F44 0%, #1a3a6a 100%);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <h1 class="font-display text-3xl font-bold text-white">Lecturer Management</h1>
+                <p class="text-gray-300 text-sm mt-1">Add and manage lecturers</p>
+            </div>
+            <a href="{% url 'admin_add_lecturer' %}" class="btn-gold px-4 py-2 rounded-lg text-white font-medium flex items-center gap-2 text-sm">
+                <i class="fas fa-plus"></i> Add Lecturer
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="py-8 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row gap-4 mb-6">
+            <div class="flex gap-2">
+                <a href="?type=all{% if query %}&q={{ query }}{% endif %}" class="px-4 py-2 rounded-lg text-sm font-medium transition-all {% if lec_type == 'all' %}text-white{% else %}bg-white text-gray-600 border border-gray-200 hover:bg-gray-50{% endif %}" {% if lec_type == 'all' %}style="background: var(--navy);"{% endif %}>
+                    All
+                </a>
+                <a href="?type=senior{% if query %}&q={{ query }}{% endif %}" class="px-4 py-2 rounded-lg text-sm font-medium transition-all {% if lec_type == 'senior' %}text-white{% else %}bg-white text-gray-600 border border-gray-200 hover:bg-gray-50{% endif %}" {% if lec_type == 'senior' %}style="background: var(--navy);"{% endif %}>
+                    Senior ({{ senior_count }})
+                </a>
+                <a href="?type=junior{% if query %}&q={{ query }}{% endif %}" class="px-4 py-2 rounded-lg text-sm font-medium transition-all {% if lec_type == 'junior' %}text-white{% else %}bg-white text-gray-600 border border-gray-200 hover:bg-gray-50{% endif %}" {% if lec_type == 'junior' %}style="background: var(--navy);"{% endif %}>
+                    Junior ({{ junior_count }})
+                </a>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr style="background: rgba(10,31,68,0.03);">
+                            <th class="text-left px-5 py-3 font-semibold" style="color: var(--navy);">Lecturer</th>
+                            <th class="text-left px-5 py-3 font-semibold" style="color: var(--navy);">Title</th>
+                            <th class="text-left px-5 py-3 font-semibold" style="color: var(--navy);">Type</th>
+                            <th class="text-left px-5 py-3 font-semibold" style="color: var(--navy);">Status</th>
+                            <th class="text-left px-5 py-3 font-semibold" style="color: var(--navy);">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-50">
+                        {% for lecturer in page_obj %}
+                        <tr class="hover:bg-gray-50 transition-all">
+                            <td class="px-5 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg, var(--gold), #c9a42d);">
+                                        <span class="text-white text-xs font-bold">{{ lecturer.full_name|slice:":1" }}</span>
+                                    </div>
+                                    <span class="font-medium" style="color: var(--navy);">{{ lecturer.full_name }}</span>
+                                </div>
+                            </td>
+                            <td class="px-5 py-4 text-gray-500">{{ lecturer.title }}</td>
+                            <td class="px-5 py-4">
+                                <span class="text-xs px-2 py-1 rounded-full {% if lecturer.lecturer_type == 'senior' %}bg-yellow-50 text-yellow-700{% else %}bg-gray-100 text-gray-600{% endif %}">
+                                    {{ lecturer.get_lecturer_type_display }}
+                                </span>
+                            </td>
+                            <td class="px-5 py-4">
+                                <span class="text-xs px-2 py-1 rounded-full {% if lecturer.is_active %}bg-green-50 text-green-600{% else %}bg-red-50 text-red-600{% endif %}">
+                                    {% if lecturer.is_active %}Active{% else %}Inactive{% endif %}
+                                </span>
+                            </td>
+                            <td class="px-5 py-4">
+                                <div class="flex gap-2">
+                                    <a href="{% url 'admin_edit_lecturer' lecturer.pk %}" class="text-blue-600 hover:text-blue-700 p-1 rounded hover:bg-blue-50 transition-all" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{% url 'admin_delete_lecturer' lecturer.pk %}" class="text-red-600 hover:text-red-700 p-1 rounded hover:bg-red-50 transition-all" title="Delete" onclick="return confirm('Delete this lecturer?')">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="px-5 py-12 text-center text-gray-400">No lecturers found</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

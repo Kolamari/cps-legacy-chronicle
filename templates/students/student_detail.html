@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}{{ student.full_name }} - CPS Legacy Chronicle{% endblock %}
+
+{% block content %}
+<!-- Profile Header -->
+<section class="relative py-16" style="background: linear-gradient(135deg, #0A1F44 0%, #1a3a6a 100%);">
+    <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-10 right-20 w-64 h-64 rounded-full" style="background: var(--gold);"></div>
+    </div>
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="flex flex-col md:flex-row items-center gap-8">
+            <div class="w-40 h-40 md:w-48 md:h-48 rounded-2xl overflow-hidden flex-shrink-0" style="border: 4px solid var(--gold);">
+                {% if student.image %}
+                    <img src="{{ student.image.url }}" alt="{{ student.full_name }}" class="w-full h-full object-cover">
+                {% else %}
+                    <div class="w-full h-full flex items-center justify-center" style="background: linear-gradient(135deg, var(--navy), #1a3a6a);">
+                        <span class="text-6xl font-bold text-white font-display">{{ student.get_initials }}</span>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="text-center md:text-left">
+                <span class="text-xs font-medium px-3 py-1 rounded-full" style="background: rgba(212,175,55,0.3); color: var(--gold);">{{ student.matric_number }}</span>
+                <h1 class="font-display text-4xl md:text-5xl font-bold text-white mt-3">{{ student.full_name }}</h1>
+                <p class="text-gray-300 mt-2">
+                    <i class="fas fa-code mr-1" style="color: var(--gold);"></i>{{ student.get_favourite_programming_language_display }}
+                    {% if student.alternative_course %}
+                        <span class="mx-2">|</span>
+                        <i class="fas fa-lightbulb mr-1" style="color: var(--gold);"></i>{{ student.alternative_course }}
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Profile Details -->
+<section class="py-12 bg-gray-50">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Column -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Bio -->
+                {% if student.bio %}
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                    <h3 class="font-semibold text-lg mb-3 flex items-center gap-2" style="color: var(--navy);">
+                        <i class="fas fa-user" style="color: var(--gold);"></i> About
+                    </h3>
+                    <p class="text-gray-600 leading-relaxed">{{ student.bio }}</p>
+                </div>
+                {% endif %}
+
+                <!-- Quote -->
+                {% if student.quote %}
+                <div class="rounded-2xl p-6" style="background: linear-gradient(135deg, rgba(10,31,68,0.03), rgba(212,175,55,0.05)); border: 1px solid rgba(212,175,55,0.2);">
+                    <i class="fas fa-quote-left text-2xl mb-3" style="color: var(--gold);"></i>
+                    <p class="text-lg italic font-display" style="color: var(--navy);">"{{ student.quote }}"</p>
+                </div>
+                {% endif %}
+
+                <!-- Skills -->
+                {% if skills_list %}
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                    <h3 class="font-semibold text-lg mb-3 flex items-center gap-2" style="color: var(--navy);">
+                        <i class="fas fa-tools" style="color: var(--gold);"></i> Skills
+                    </h3>
+                    <div class="flex flex-wrap gap-2">
+                        {% for skill in skills_list %}
+                            <span class="px-4 py-2 rounded-full text-sm font-medium" style="background: rgba(10,31,68,0.05); color: var(--navy);">{{ skill }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Right Column -->
+            <div class="space-y-6">
+                <!-- Info Card -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                    <h3 class="font-semibold text-lg mb-4" style="color: var(--navy);">Details</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-envelope mt-1" style="color: var(--gold);"></i>
+                            <div>
+                                <div class="text-xs text-gray-400">Email</div>
+                                <div class="text-sm">{{ student.email }}</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-phone mt-1" style="color: var(--gold);"></i>
+                            <div>
+                                <div class="text-xs text-gray-400">Phone</div>
+                                <div class="text-sm">{{ student.phone_number }}</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-map-marker-alt mt-1" style="color: var(--gold);"></i>
+                            <div>
+                                <div class="text-xs text-gray-400">Address</div>
+                                <div class="text-sm">{{ student.contact_address }}</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-heart mt-1" style="color: var(--gold);"></i>
+                            <div>
+                                <div class="text-xs text-gray-400">Status</div>
+                                <div class="text-sm">{{ student.get_relationship_status_display }}</div>
+                            </div>
+                        </div>
+                        {% if student.favourite_course_mate %}
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-user-friends mt-1" style="color: var(--gold);"></i>
+                            <div>
+                                <div class="text-xs text-gray-400">Favourite Course Mate</div>
+                                <div class="text-sm">{{ student.favourite_course_mate }}</div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if student.favourite_programming_language %}
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                    <h3 class="font-semibold text-lg mb-3" style="color: var(--navy);">Favourite Language</h3>
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background: rgba(10,31,68,0.05);">
+                            <i class="fas fa-code text-xl" style="color: var(--navy);"></i>
+                        </div>
+                        <span class="font-medium" style="color: var(--navy);">{{ student.get_favourite_programming_language_display }}</span>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

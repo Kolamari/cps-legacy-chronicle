@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard - CPS Legacy Chronicle{% endblock %}
+
+{% block content %}
+<!-- Admin Header -->
+<section class="py-8" style="background: linear-gradient(135deg, #0A1F44 0%, #1a3a6a 100%);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <h1 class="font-display text-3xl font-bold text-white">Admin Dashboard</h1>
+                <p class="text-gray-300 text-sm mt-1">Manage students, lecturers, and settings</p>
+            </div>
+            <div class="flex gap-3">
+                <a href="{% url 'generate_yearbook' %}" class="btn-gold px-4 py-2 rounded-lg text-white font-medium flex items-center gap-2 text-sm">
+                    <i class="fas fa-file-pdf"></i> Yearbook
+                </a>
+                <a href="{% url 'admin_form_control' %}" class="px-4 py-2 rounded-lg text-white font-medium text-sm border border-white/30 hover:bg-white/10 transition-all flex items-center gap-2">
+                    <i class="fas fa-sliders-h"></i> Form Control
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Cards -->
+<section class="py-8 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-gray-400 uppercase">Total Students</p>
+                        <p class="text-2xl font-bold" style="color: var(--navy);">{{ total_students }}</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background: rgba(10,31,68,0.1);">
+                        <i class="fas fa-users" style="color: var(--navy);"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-gray-400 uppercase">Approved</p>
+                        <p class="text-2xl font-bold text-green-600">{{ approved_students }}</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-lg flex items-center justify-center bg-green-50">
+                        <i class="fas fa-check-circle text-green-500"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-gray-400 uppercase">Pending</p>
+                        <p class="text-2xl font-bold text-yellow-600">{{ pending_students }}</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-lg flex items-center justify-center bg-yellow-50">
+                        <i class="fas fa-clock text-yellow-500"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-gray-400 uppercase">Lecturers</p>
+                        <p class="text-2xl font-bold" style="color: var(--navy);">{{ total_lecturers }}</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background: rgba(212,175,55,0.15);">
+                        <i class="fas fa-chalkboard-teacher" style="color: var(--gold);"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Links -->
+<section class="py-8 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="font-semibold text-lg mb-4" style="color: var(--navy);">Quick Links</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <a href="{% url 'admin_students' %}" class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-all group">
+                <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-3" style="background: rgba(10,31,68,0.1);">
+                    <i class="fas fa-user-graduate text-xl" style="color: var(--navy);"></i>
+                </div>
+                <h3 class="font-semibold" style="color: var(--navy);">Students</h3>
+                <p class="text-sm text-gray-400 mt-1">Approve & manage</p>
+            </a>
+            <a href="{% url 'admin_lecturers' %}" class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-all group">
+                <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-3" style="background: rgba(212,175,55,0.15);">
+                    <i class="fas fa-chalkboard-teacher text-xl" style="color: var(--gold);"></i>
+                </div>
+                <h3 class="font-semibold" style="color: var(--navy);">Lecturers</h3>
+                <p class="text-sm text-gray-400 mt-1">Add & edit</p>
+            </a>
+            <a href="{% url 'admin_school' %}" class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-all group">
+                <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-3" style="background: rgba(10,31,68,0.1);">
+                    <i class="fas fa-university text-xl" style="color: var(--navy);"></i>
+                </div>
+                <h3 class="font-semibold" style="color: var(--navy);">School Pages</h3>
+                <p class="text-sm text-gray-400 mt-1">VC, HOD, etc.</p>
+            </a>
+            <a href="{% url 'admin_settings' %}" class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-all group">
+                <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-3" style="background: rgba(212,175,55,0.15);">
+                    <i class="fas fa-cog text-xl" style="color: var(--gold);"></i>
+                </div>
+                <h3 class="font-semibold" style="color: var(--navy);">Settings</h3>
+                <p class="text-sm text-gray-400 mt-1">Site config</p>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Recent Activity -->
+<section class="py-8 bg-gray-50 pb-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Recent Students -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="p-5 border-b border-gray-100 flex items-center justify-between">
+                    <h3 class="font-semibold" style="color: var(--navy);">Recent Students</h3>
+                    <a href="{% url 'admin_students' %}" class="text-sm font-medium" style="color: var(--gold);">View All</a>
+                </div>
+                <div class="divide-y divide-gray-50">
+                    {% for student in recent_students %}
+                    <div class="p-4 flex items-center gap-4 hover:bg-gray-50 transition-all">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg, var(--navy), #1a3a6a);">
+                            <span class="text-white text-sm font-bold">{{ student.get_initials }}</span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="font-medium text-sm truncate" style="color: var(--navy);">{{ student.full_name }}</p>
+                            <p class="text-xs text-gray-400">{{ student.matric_number }}</p>
+                        </div>
+                        {% if student.is_approved %}
+                            <span class="badge-approved text-xs">Approved</span>
+                        {% else %}
+                            <span class="badge-pending text-xs">Pending</span>
+                        {% endif %}
+                    </div>
+                    {% empty %}
+                    <div class="p-8 text-center text-gray-400 text-sm">No students yet</div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Recent Lecturers -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="p-5 border-b border-gray-100 flex items-center justify-between">
+                    <h3 class="font-semibold" style="color: var(--navy);">Recent Lecturers</h3>
+                    <a href="{% url 'admin_lecturers' %}" class="text-sm font-medium" style="color: var(--gold);">View All</a>
+                </div>
+                <div class="divide-y divide-gray-50">
+                    {% for lecturer in recent_lecturers %}
+                    <div class="p-4 flex items-center gap-4 hover:bg-gray-50 transition-all">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg, var(--gold), #c9a42d);">
+                            <span class="text-white text-sm font-bold">{{ lecturer.full_name|slice:":1" }}</span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="font-medium text-sm truncate" style="color: var(--navy);">{{ lecturer.title }} {{ lecturer.full_name }}</p>
+                            <p class="text-xs text-gray-400">{{ lecturer.get_lecturer_type_display }}</p>
+                        </div>
+                        <span class="text-xs px-2 py-1 rounded-full {% if lecturer.is_active %}bg-green-50 text-green-600{% else %}bg-gray-100 text-gray-400{% endif %}">
+                            {% if lecturer.is_active %}Active{% else %}Inactive{% endif %}
+                        </span>
+                    </div>
+                    {% empty %}
+                    <div class="p-8 text-center text-gray-400 text-sm">No lecturers yet</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

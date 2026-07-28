@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Form Control - CPS Legacy Chronicle{% endblock %}
+
+{% block content %}
+<section class="py-8" style="background: linear-gradient(135deg, #0A1F44 0%, #1a3a6a 100%);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="font-display text-3xl font-bold text-white">Form Control</h1>
+        <p class="text-gray-300 text-sm mt-1">Manage student registration periods</p>
+    </div>
+</section>
+
+<section class="py-8 bg-gray-50">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Current Status -->
+        <div class="rounded-xl p-6 mb-6 text-center" style="background: {% if control.get_status == 'open' %}rgba(34,197,94,0.1){% elif control.get_status == 'closing_soon' %}rgba(234,179,8,0.1){% else %}rgba(239,68,68,0.1){% endif %};">
+            <p class="text-sm text-gray-500 mb-1">Current Status</p>
+            <p class="text-2xl font-bold {% if control.get_status == 'open' %}text-green-600{% elif control.get_status == 'closing_soon' %}text-yellow-600{% else %}text-red-600{% endif %}">
+                {{ control.get_status_display_name }}
+            </p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+            <form method="post" class="space-y-5">
+                {% csrf_token %}
+                <div class="flex items-center gap-3 p-4 rounded-lg bg-gray-50">
+                    {{ form.is_enabled }}
+                    <div>
+                        <label class="font-medium text-gray-700">Enable Registration</label>
+                        <p class="text-xs text-gray-400">Allow students to register</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        {{ form.opening_date.label_tag }}
+                        {{ form.opening_date }}
+                        <p class="text-xs text-gray-400 mt-1">When registration opens</p>
+                    </div>
+                    <div>
+                        {{ form.closing_date.label_tag }}
+                        {{ form.closing_date }}
+                        <p class="text-xs text-gray-400 mt-1">When registration closes</p>
+                    </div>
+                </div>
+                <div>
+                    {{ form.message.label_tag }}
+                    {{ form.message }}
+                </div>
+                <button type="submit" class="btn-primary w-full py-3 rounded-lg text-white font-semibold">
+                    <i class="fas fa-save mr-2"></i>Save Settings
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
