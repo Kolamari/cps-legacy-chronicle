@@ -86,34 +86,31 @@ document.addEventListener("DOMContentLoaded", function() {
         );
     });
 
-    // Universal Event Listener for any Password Toggle Eye Icons
+    // Robust Relative Toggle for Login Password Eye
     document.querySelectorAll('button[onclick^="togglePassword"]').forEach(btn => {
-        // Clear inline onclick to prevent scope or ID mismatch bugs, bind cleanly via JS
-        const match = btn.getAttribute('onclick').match(/['"]([^'"]+)['"]/);
-        if (match) {
-            const fieldId = match[1];
-            btn.removeAttribute('onclick');
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                const field = document.getElementById(fieldId);
-                const eye = document.getElementById('eye-' + fieldId);
-                if, (!field) return;
-                
-                if (field.type === 'password') {
-                    field.type = 'text';
-                    if (eye) {
-                        eye.classList.remove('fa-eye');
-                        eye.classList.add('fa-eye-slash');
-                    }
-                } else {
-                    field.type = 'password';
-                    if (eye) {
-                        eye.classList.remove('fa-eye-slash');
-                        eye.classList.add('fa-eye');
-                    }
+        btn.removeAttribute('onclick');
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const wrapper = btn.closest('.relative');
+            const field = wrapper ? wrapper.querySelector('input') : null;
+            const eye = btn.querySelector('i');
+            
+            if (!field) return;
+
+            if (field.type === 'password') {
+                field.type = 'text';
+                if (eye) {
+                    eye.classList.remove('fa-eye');
+                    eye.classList.add('fa-eye-slash');
                 }
-            });
-        }
+            } else {
+                field.type = 'password';
+                if (eye) {
+                    eye.classList.remove('fa-eye-slash');
+                    eye.classList.add('fa-eye');
+                }
+            }
+        });
     });
 });
 </script>
