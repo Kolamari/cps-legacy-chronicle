@@ -24,11 +24,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    
-    # Third-party storage (Cloudinary)
+    # Third-party storage
     'cloudinary_storage',
     'cloudinary',
-
     # Your Apps
     'accounts',
     'students',
@@ -95,7 +93,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
-# Cloudinary Media Storage Settings
+## Cloudinary Media Settings
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 CLOUDINARY_STORAGE = {
