@@ -113,7 +113,7 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    // Automatically apply crisp Tailwind classes to Django form inputs
+    // Automatically apply crisp Tailwind border, padding, and focus ring classes to Django register form inputs
     const formInputs = document.querySelectorAll('input[type="text"], input[type="password"], input[type="email"]');
     formInputs.forEach(input => {
         input.classList.add(
@@ -125,34 +125,21 @@ document.addEventListener("DOMContentLoaded", function() {
             'transition-all', 'outline-none'
         );
     });
-
-    // Robust Relative Toggle for Password Eyes
-    document.querySelectorAll('button[onclick^="togglePassword"]').forEach(btn => {
-        btn.removeAttribute('onclick'); // remove old inline handler
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            // Find the input field sitting right inside the same relative wrapper container
-            const wrapper = btn.closest('.relative');
-            const field = wrapper ? wrapper.querySelector('input') : null;
-            const eye = btn.querySelector('i');
-            
-            if (!field) return;
-
-            if (field.type === 'password') {
-                field.type = 'text';
-                if (eye) {
-                    eye.classList.remove('fa-eye');
-                    eye.classList.add('fa-eye-slash');
-                }
-            } else {
-                field.type = 'password';
-                if (eye) {
-                    eye.classList.remove('fa-eye-slash');
-                    eye.classList.add('fa-eye');
-                }
-            }
-        });
-    });
 });
+
+function togglePassword(fieldId) {
+    const field = document.getElementById(fieldId);
+    const eye = document.getElementById('eye-' + fieldId);
+    if (!field) return;
+    if (field.type === 'password') {
+        field.type = 'text';
+        eye.classList.remove('fa-eye');
+        eye.classList.add('fa-eye-slash');
+    } else {
+        field.type = 'password';
+        eye.classList.remove('fa-eye-slash');
+        eye.classList.add('fa-eye');
+    }
+}
 </script>
 {% endblock %}
